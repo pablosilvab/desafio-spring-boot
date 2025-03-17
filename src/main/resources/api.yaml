@@ -1,0 +1,266 @@
+openapi: 3.0.3
+info:
+  title: Swagger Tasks Management
+  contact:
+    email: pablonicolassilvabravo@gmail.com
+  version: 1.0.11
+tags:
+  - name: task
+    description: Operations about tasks
+  - name: login
+    description: Authentication
+
+paths:
+  /tasks:
+    post:
+      tags:
+        - task
+      summary: Create a task
+      description: Create a task
+      operationId: addTask
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        description: Create a task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '401':
+          description: Invalid credentials
+    get:
+      tags:
+        - task
+      summary: Get all tasks
+      description: Get all tasks
+      operationId: getTasks
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+        '401':
+          description: Invalid credentials
+
+  /tasks/{taskId}:
+    get:
+      tags:
+        - task
+      summary: Find task by ID
+      description: Returns a single task
+      operationId: getTaskById
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: taskId
+          in: path
+          description: ID of task
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          description: Invalid credentials
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    put:
+      tags:
+        - task
+      summary: Update task by ID
+      description: Update task by ID
+      operationId: updateTask
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: taskId
+          in: path
+          description: name that need to be deleted
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: Update an existent task
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          description: Invalid credentials
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+    delete:
+      tags:
+        - task
+      summary: Deletes a task
+      description: delete a task
+      operationId: deleteTask
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - name: taskId
+          in: path
+          description: Task id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '400':
+          description: Invalid task Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '401':
+          description: Invalid credentials
+        '404':
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  /login:
+    post:
+      tags:
+        - login
+      summary: User login
+      description: Authenticate a user
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+
+components:
+  schemas:
+    CreateTaskRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Desarollar API
+    UpdateTaskRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Desarollar API
+        status:
+          type: integer
+          format: int64
+          example: 1
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Desarollar API
+        user:
+          type: string
+          example: Juan Pérez
+        status:
+          type: string
+          example: Pendiente
+      xml:
+        name: user
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: juan@test.com
+        password:
+          type: string
+          example: password123
+    LoginResponse:
+      type: object
+      properties:
+        jwt:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+      xml:
+        name: '##default'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

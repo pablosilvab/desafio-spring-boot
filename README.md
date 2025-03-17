@@ -1,72 +1,58 @@
-# Desafío Técnico: Gestión de Tareas con Spring Boot y Java
+# **API de Gestión de Tareas**
 
-La empresa NUEVO SPA desea desarrollar una plataforma de gestión de tareas para mejorar la productividad de sus equipos. El sistema debe permitir a los usuarios crear, actualizar, eliminar y listar tareas. Además, se requiere autenticación mediante JWT y documentación de la API utilizando OpenAPI y Swagger.
+Este proyecto es una **API REST** para la gestión de tareas, desarrollada con **Spring Boot** y **Java 17**.
 
-## Objetivo:
-Crear una API RESTful utilizando Spring Boot que gestione usuarios y tareas, aplicando buenas prácticas, principios SOLID y utilizando las tecnologías especificadas.
+## 🚀 **Tecnologías Utilizadas**
 
-## Requisitos Técnicos:
-### Java:
-- Utiliza Java 17 para la implementación.
-- Utiliza las características de Java 17, como lambdas y streams, cuando sea apropiado.
-- Utilizar Maven como gestor de dependencias
+- **Java 17**
+- **Spring Boot 3.4.3**
+- **Spring Data JPA** (para la interacción con la base de datos)
+- **MapStruct 1.6.0** (para mapeo de objetos de entidad a DTO y viceversa)
+- **Open Api Generator 7.12.0** (para la generación automática de código a partir de la especificación OpenAPI)
+- **Lombok** (para reducir código repetitivo)
+- **Swagger** (para la documentación de la API)
 
-### Spring Boot 3.4.x:
-- Construye la aplicación utilizando Spring Boot 3.4.x (última versión disponible).
+## 📌 **Características**
 
-### Base de Datos:
+Esta API proporciona los siguientes endpoints:
 
-- Utiliza una base de datos H2.
-- Crea tres tablas: usuarios, tareas y estados_tarea.
-- La tabla usuarios debe contener datos pre cargados.
-- La tabla estados_tarea debe contener estados pre cargados.
+| Método | Endpoint      | Descripción              |  
+|--------|---------------|--------------------------|  
+| POST   | `/login`      | Autenticarse             |  
+| GET    | `/tasks`      | Obtener todas las tareas |  
+| GET    | `/tasks/{id}` | Obtener una tarea por ID |  
+| POST   | `/tasks`      | Crear una nueva tarea    |  
+| PUT    | `/tasks/{id}` | Actualizar una tarea     |  
+| DELETE | `/tasks/{id}` | Eliminar una tarea       |  
 
-### JPA:
-- Implementa una capa de persistencia utilizando JPA para almacenar y recuperar las tareas.
+## 🛠️ **Configuración y Uso**
 
-### JWT (JSON Web Token):
+### 1️⃣ Clonar el repositorio
+```bash
+git clone https://github.com/pablosilvab/desafio-spring-boot.git
+cd desafio-spring-boot
+```
 
-- Implementa la autenticación utilizando JWT para validar usuarios.
+### 2️⃣ Generar código de OpenAPI y MapStruct
+```bash
+mvn clean compile
+```
 
-### OpenAPI y Swagger:
+### 3️⃣ Ejecutar con Maven
+```bash
+mvn spring-boot:run
+```
 
-- Documenta la API utilizando OpenAPI y Swagger.
+## 📄 Documentación de la API
 
-## Funcionalidades:
-### Autenticación:
-- Implementa un endpoint para la autenticación de usuarios utilizando JWT. 
+Puedes explorar y probar la API utilizando las siguientes herramientas:
 
-### CRUD de Tareas:
-- Implementa operaciones CRUD (Crear, Leer, Actualizar, Eliminar) para las tareas.
+### Swagger UI
+Accede a la documentación interactiva generada automáticamente por Swagger:
+```bash
+http://localhost:8080/swagger-ui/index.html
+```
+### Postman
+Para probar la API en Postman, puedes importar la colección desde el siguiente enlace:[Documentación en Postman](https://documenter.getpostman.com/view/1979123/2sAYkBthJ3)
+o importar la colección `desafio-spring-boot.postman_collection.json` manualmente. 
 
-## Consideraciones:
-### Seguridad:
-- Asegúrate de que las operaciones CRUD de tareas solo sean accesibles para usuarios autenticados.
-
-### Documentación:
-- Utiliza OpenAPI y Swagger para documentar claramente la API.
-- Puntos adicionales si se genera el API mediante metodologia API First. Generar el archivo openapi.yml Nota: Ejemplo Plugin Maven groupId org.openapitools, artifactId openapi-generator-maven-plugin
-
-### Código Limpio:
-- Escribe código ordenado, aplicando buenas prácticas y principios SOLID.
-
-### Creatividad
-- Se espera dada la descripción del problema se creen las entidades y metodos en consecuencia a lo solicitado.
-
-## Entregables:
-### Repositorio de GitHub:
-- Realiza un Pull request a este repositorio indicando tu nombre, correo y cargo al que postulas.
-- Todos los PR serán rechazados, no es un indicador de la prueba.
-
-### Documentación:
-- Incluye instrucciones claras sobre cómo ejecutar y probar la aplicación.
-- **Incluir Json de prueba en un archivo texto o mediante un proyecto postman** Nota: Si no va se restaran puntos de la evaluación
-
-## Evaluación:
-Se evaluará la solución en función de los siguientes criterios:
-
-- Correcta implementación de las funcionalidades solicitadas.
-- Aplicación de buenas prácticas de desarrollo, patrones de diseño y principios SOLID.
-- Uso adecuado de Java 17, Spring Boot 3.4.x, H2, JWT, OpenAPI y Swagger.
-- Claridad y completitud de la documentación.
-- **Puntos extras si la generación de la API se realizo mediante API First**
